@@ -27,6 +27,11 @@ export default {
   computed: {
     ...mapGetters("tasks", ["tasksTodo", "tasksCompleted"])
   },
+  mounted() {
+    this.$root.$on("showAddTask", () => {
+      this.showAddTask = true;
+    });
+  },
   components: {
     "add-task": require("components/Tasks/Modals/AddTask.vue").default,
     "tasks-todo": require("components/Tasks/TasksTodo.vue").default,
