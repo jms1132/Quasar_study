@@ -1,5 +1,5 @@
 <template>
-  <q-form>
+  <q-form @submit="submitForm">
     <q-input
       v-if="tab == 'register'"
       v-model="formData.name"
@@ -25,13 +25,15 @@
       <q-space />
       <q-btn
         color="primary"
-        label="Primary"
+        type="submit"
+        :label="tab"
       />
     </div>
   </q-form>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   props: ["tab"],
   data() {
@@ -42,6 +44,16 @@ export default {
         password: ""
       }
     };
+  },
+  methods: {
+    ...mapActions("store", ["registerUser", "loginUser"]),
+    submitForm() {
+      if (this.tab == "login") {
+        this.loginUser(this.formData);
+      } else {
+        this.registerUser(this.formData);
+      }
+    }
   }
 };
 </script>
