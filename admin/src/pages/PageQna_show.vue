@@ -147,9 +147,7 @@ export default {
 				this.title = response.data.data.title
 				this.contents = response.data.data.contents
 
-				console.log(this.title)
-				console.log(this.contents)
-				console.log(response)
+
 			})
 			.catch(error => {
 				console.log(error)

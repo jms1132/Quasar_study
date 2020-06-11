@@ -112,7 +112,7 @@ export default {
 			postData: [],
 			perPage: null,
 			currentPage: null,
-			clickPage: null,
+		
 			keyword: null,
 			total: null,
 			page: null,
@@ -176,12 +176,12 @@ export default {
 	},
 	methods: {
 		fetchData() {
-			this.clickPage = this.$route.query.page
+			this.pagination.page = this.$route.query.page
 				axios
 					.get('http://localhost:8000/api/v1/admin/article', {
 						params: {
 							type: 'notice',
-							page: this.clickPage
+							page: this.pagination.page
 						}
 					})
 					.then(response => {
@@ -211,6 +211,7 @@ export default {
 				name: 'notice_show',
 				query: { id: row.id }
 			})
+			console.log(row.id)
 		},
 		search() {
 			axios

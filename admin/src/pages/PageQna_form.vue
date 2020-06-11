@@ -2,6 +2,7 @@
 	<q-page class="q-ml-xl q-mr-xl">
 
 		<h6>{{ $t('qna.write') }}</h6>
+		<q-form @submit="onSubmit">
 
 		<div class="qna_write_div">
 			<p class="q-mr-lg inline-block">{{ $t('form.title') }}</p>
@@ -9,8 +10,8 @@
 				style="width:80%"
 				class="inline-block"
 				outlined
+				v-model="title"
 			/>
-
 		</div>
 
 		<!-- 내용 div -->
@@ -22,6 +23,8 @@
 				outlined
 				type="textarea"
 				style="width:80%"
+									v-model="contents"
+
 			/>
 		</div>
 
@@ -41,7 +44,8 @@
 									<q-btn
 										:label="$t('buttons.register')"
 										class="q-mr-sm"
-										@click="register = true"
+																				type="submit"
+
 									></q-btn>
 									<q-btn
 										class="q-ml-sm"
@@ -76,19 +80,50 @@
 				</q-card-actions>
 			</q-card>
 		</q-dialog>
+		</q-form>
 
 	</q-page>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
 	data() {
 		return {
 			register: false,
 			edit_mode: false,
+					title: null,
+			contents: null,
+				type: null,
+			user_id: null,
 			nav: {
 				to: '/qna_list'
 			}
+		}
+	},
+methods: {
+		onSubmit() {
+
+			axios({
+				method: 'post',
+				url: 'http://localhost:8000/api/v1/admin/article',
+				data: {
+					title: this.title,
+					contents: this.contents,
+					type: 'qna',
+					user_id: '1'
+				}
+			})
+				.then(response => {
+
+					this.$router.push('/qna_list')
+				})
+				.catch(error => {
+					console.log(error)
+					console.log('실패')
+				})
+			
 		}
 	}
 }
