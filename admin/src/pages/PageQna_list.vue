@@ -67,7 +67,7 @@
 			<q-infinite-scroll
 				@load="onLoad"
 				:offset="250"
-			>
+			> 
 				<!-- <q-banner inline-actions>
 					<template>
 						<q-item>Title</q-item>
@@ -105,7 +105,7 @@
 					</q-item>
 
 				</q-list>
-				<template v-slot:loading>
+				<template>
 					<div class="row justify-center q-my-md">
 						<q-spinner-dots
 							color="primary"
@@ -185,7 +185,7 @@ export default {
 					params: {
 						type: 'qna',
 						page: this.page,
-						q: this.keyword
+						q: this.keyword,
 					}
 				})
 				.then(response => {
