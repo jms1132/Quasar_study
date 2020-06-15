@@ -6,7 +6,6 @@
 		<h6 class="q-mb-none q-mt-md q-ml-md">{{ $t('qna.list') }}</h6>
 		<div style="height:65px;">
 			<div class="flex flex-center column">
-
 				<div
 					id="parent"
 					class="fit row wrap justify-end items-start content-start"
@@ -37,12 +36,10 @@
 						</q-card>
 					</div>
 				</div>
-
 			</div>
 		</div>
 		<div id="q-app">
 			<div class="flex flex-center column">
-
 				<div
 					class="row"
 					style="width: 100%;"
@@ -55,8 +52,7 @@
 						<div style="overflow: auto;">
 							<q-card>
 								<q-card-section class="q-pt-none">
-									<q-btn :to="nav.to">{{ $t('buttons.write')}}</q-btn>
-								</q-card-section>
+	<q-btn @click="register_post">{{ $t('buttons.write')}}</q-btn>								</q-card-section>
 							</q-card>
 						</div>
 					</div>
@@ -67,13 +63,7 @@
 			<q-infinite-scroll
 				@load="onLoad"
 				:offset="250"
-			> 
-				<!-- <q-banner inline-actions>
-					<template>
-						<q-item>Title</q-item>
-						<q-item>Contents</q-item>
-					</template>
-				</q-banner> -->
+			>
 				<q-item class="list-header text-white text-left">
 					<q-item-section>
 						<q-item-label header>글제목
@@ -82,7 +72,6 @@
 					<q-item-section>
 						<q-item-label header>등록일</q-item-label>
 					</q-item-section>
-
 				</q-item>
 				<q-list
 					v-for="(post, id) in infinitePosts"
@@ -92,7 +81,7 @@
 				>
 					<q-item
 						clickable
-						:to="{name: 'qna_show', query: {id: post.id}}"
+						:to="{name: 'board_show', query: {id: post.id, form_type: 'show', type: 'qna'}}"
 					>
 						<q-item-section>
 							<q-item-label> {{post.title}}
@@ -101,9 +90,7 @@
 						<q-item-section>
 							<q-item-label> {{post.created_at}}</q-item-label>
 						</q-item-section>
-
 					</q-item>
-
 				</q-list>
 				<template>
 					<div class="row justify-center q-my-md">
@@ -115,17 +102,11 @@
 				</template>
 			</q-infinite-scroll>
 		</div>
-
 	</q-page>
 </template>
 
-
-
 <script>
 import axios from 'axios'
-var postData
-var perPage
-var currentPage
 
 export default {
 	data() {
@@ -135,21 +116,13 @@ export default {
 			keyword: null,
 			postId: null,
 			page: 1,
-			nav: {
-				to: '/qna_form'
-			}
 		}
 	},
 	created() {
 		this.onLoad
 	},
-	// computed: {
-	// 	$route: 'onLoad'
-	// },
-
 	methods: {
 		search() {
-			console.log('작동?')
 			this.page = 1
 			this.infinitePosts = []
 			axios
@@ -162,50 +135,36 @@ export default {
 				})
 				.then(response => {
 					this.postData = response.data.data.data
-					console.log(this.page, '검색')
-				
-
 					this.infinitePosts = response.data.data.data
-					console.log(this.postData)
-					console.log('검색결과')
-					console.log(this.page)
-					this.page+=1
-				})
-				.catch(error => {
-					console.log(error)
-					console.log('실패')
+					this.page += 1
 				})
 		},
-
 		onLoad(id, done) {
-			console.log(this.page, '시작')
-
 			axios
 				.get('http://localhost:8000/api/v1/admin/article', {
 					params: {
 						type: 'qna',
 						page: this.page,
-						q: this.keyword,
+						q: this.keyword
 					}
 				})
 				.then(response => {
 					this.postData = response.data.data.data
-					console.log(this.page, '2번')
 					setTimeout(() => {
 						if (this.postData.length) {
 							this.infinitePosts = this.infinitePosts.concat(this.postData)
 							this.page += 1
-
 							done()
 						}
-						console.log(this.page, '3번')
 					}, 1000)
-					
 				})
-				.catch(error => {
-					console.log(error)
-				})
+		},register_post() {
+			this.$router.push({
+				name: 'board_form',
+				query: { form_type: 'register', type: 'qna'}
+			})
 		}
+
 	}
 }
 </script>

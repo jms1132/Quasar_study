@@ -3,12 +3,9 @@
 		padding
 		class="q-pt-md"
 	>
-
 		<h6 class="q-mb-none q-mt-md q-ml-md">{{ $t('notice.list') }}</h6>
-
 		<div style="height:65px;">
 			<div class="flex flex-center column">
-
 				<div
 					id="parent"
 					class="fit row wrap justify-end items-start content-start"
@@ -34,18 +31,14 @@
 										icon="search"
 										type="submit"
 									></q-btn>
-
 								</q-form>
 							</q-card-section>
 						</q-card>
 					</div>
 				</div>
-
 			</div>
 		</div>
-
 		<div class="block">
-
 			<q-table
 				class="q-ma-md q-mb-none"
 				:data="postData"
@@ -67,10 +60,8 @@
 				/>
 			</div>
 		</div>
-
 		<div id="q-app">
 			<div class="flex flex-center column">
-
 				<div
 					class="row"
 					style="width: 100%;"
@@ -83,10 +74,7 @@
 						<div style="overflow: auto;">
 							<q-card>
 								<q-card-section class="q-pt-none">
-									<q-btn
-									
-										@click="register_post"
-									>{{ $t('buttons.write')}}</q-btn>
+									<q-btn @click="register_post">{{ $t('buttons.write')}}</q-btn>
 								</q-card-section>
 							</q-card>
 						</div>
@@ -94,15 +82,11 @@
 				</div>
 			</div>
 		</div>
-
 	</q-page>
 </template>
 
-
-
 <script>
 import axios from 'axios'
-
 export default {
 	data() {
 		return {
@@ -132,14 +116,11 @@ export default {
 					label: this.$t('column.day'),
 					field: 'created_at'
 				}
-			],
-			nav: {
-				to: '/notice_form'
-			}
+			]
 		}
 	},
 	created() {
-		(this.pagination = {
+		;(this.pagination = {
 			sortBy: 'id',
 			descending: true,
 			page: this.currentPage,
@@ -168,24 +149,17 @@ export default {
 					}
 				})
 				.then(response => {
-					console.log(response)
 					this.postData = response.data.data.data
-					
 					this.perPage = response.data.data.per_page
 					this.currentPage = response.data.data.current_page
-					console.log(this.currentPage)
 					this.total = response.data.data.total
-				})
-				.catch(error => {
-					console.log(error)
 				})
 		},
 		onRowClick(evt, row) {
 			this.$router.push({
-				name: 'notice_show',
-				query: { id: row.id, form_type : 'show' }
+				name: 'board_show',
+				query: { id: row.id, form_type: 'show', type: 'notice' }
 			})
-			console.log(row.id)
 		},
 		search() {
 			axios
@@ -197,19 +171,13 @@ export default {
 				})
 				.then(response => {
 					this.postData = response.data.data.data
-					console.log(response)
-				})
-				.catch(error => {
-					console.log(error)
-					console.log('실패')
 				})
 		},
 		register_post() {
 			this.$router.push({
-				name: 'notice_form',
-				query: { form_type: 'register' }
+				name: 'board_form',
+				query: { form_type: 'register' , type: 'notice'}
 			})
-		
 		}
 	}
 }

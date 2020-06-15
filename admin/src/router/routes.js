@@ -12,44 +12,26 @@ const routes = [{
       component: () => import("pages/PageNotice_list.vue")
     },
     {
-      path: "/notice_form",
-      name: 'notice_form',
+      path: "/board_form",
+      name: 'board_form',
 
-      component: () => import("pages/PageNotice_form.vue")
-    },
-
-    {
-      path: "/notice_show",
-			name: 'notice_show',
-
-      component: () => import("pages/PageNotice_show.vue")
+      component: () => import("pages/Page_form.vue")
     },
     {
-      path: "/notice_edit",
-      name: 'notice_edit',
-      component: () => import("pages/PageNotice_edit.vue")
+      path: "/board_show",
+      name: 'board_show',
+
+      component: () => import("pages/Page_show.vue")
+    },
+    {
+      path: "/board_edit",
+      name: 'board_edit',
+      component: () => import("pages/Page_edit.vue")
     },
     {
       path: "/qna_list",
       name: "qna_list",
       component: () => import("pages/PageQna_list.vue")
-    },
-    {
-      path: "/qna_form",
-      name: "qna_form",
-      component: () => import("pages/PageQna_form.vue")
-    },
-    {
-      path: "/qna_show",
-      name: "qna_show",
-
-      component: () => import("pages/PageQna_show.vue")
-    },
-    {
-      path: "/qna_edit",
-      name: "qna_edit",
-
-      component: () => import("pages/PageQna_edit.vue")
     }
 
   ]
